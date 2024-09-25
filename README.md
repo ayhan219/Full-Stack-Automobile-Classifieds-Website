@@ -43,6 +43,33 @@ To protect user data, JWT is securely stored in cookies with HTTP-only and Secur
 #### Responsive Design: 
 Built with React, the platform offers a responsive and modern user interface, making it easy for users to navigate on both desktop and mobile devices.
 
+<br>
+
+![image](https://github.com/user-attachments/assets/9b262715-4a21-4c73-a893-2810e1e1d96d)
+
+In the top left corner, you can filter listings based on your preferred criteria. For example, if you are looking for red cars, you can select that option. Additionally, if you have a specific budget in mind, you can enter your desired price range to view listings that fit within that price bracket.
+
+
+<br>
+<br>
+
+To post a car listing, you need to log in first. After logging in, you can enter the relevant information about the vehicle and add it to the platform.
+![image](https://github.com/user-attachments/assets/7f3709e3-42b5-4787-94ef-7591d421bc64)
+
+<br>
+<br>
+
+
+
+
+<br>
+<br>
+
+## Future Enhancements
+
+I aspire to further enhance and develop this project in the future, incorporating additional features and improvements to provide users with an even better experience.
+
+
 
 
 
