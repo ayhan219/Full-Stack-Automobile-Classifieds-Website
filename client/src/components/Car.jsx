@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 const Car = ({ item, id }) => {
   return (
-    <div className="w-full h-auto flex flex-col md:block bg-white shadow-2xl rounded-lg overflow-hidden">
+    <div className="w-full h-[70%] md:h-[100%] flex flex-col md:block bg-white shadow-2xl  rounded-lg ">
       <div key={id} className="w-full h-56">
         <img
-          className=" h-24 w-full md:h-full object-cover flex-grow"
+          className=" h-full w-full md:h-full object-cover flex-grow"
           src={`http://localhost:5000/uploads/${item.image}`}
           alt={`${item.brand} ${item.model}`}
         />

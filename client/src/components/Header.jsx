@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="w-full h-[115vh] flex items-center  md:pt-16  flex-col relative">
+    <div className="w-full h-[120vh] flex items-center  md:pt-16  flex-col relative">
       <div className="w-full md:w-[70%] h-[80vh] bg-black relative">
         <img
           className="w-full h-full object-cover opacity-50"
