@@ -53,8 +53,9 @@ In the top left corner, you can filter listings based on your preferred criteria
 <br>
 <br>
 
-To post a car listing, you need to log in first. After logging in, you can enter the relevant information about the vehicle and add it to the platform.
+
 ![image](https://github.com/user-attachments/assets/7f3709e3-42b5-4787-94ef-7591d421bc64)
+To post a car listing, you need to log in first. After logging in, you can enter the relevant information about the vehicle and add it to the platform.
 
 <br>
 <br>
