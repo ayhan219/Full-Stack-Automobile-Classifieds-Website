@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CarSeller from "../components/CarSeller";
 import axios from "axios";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Buy = () => {
   const [minPrice, setMinPrice] = useState("");
@@ -13,6 +14,8 @@ const Buy = () => {
   const [firstOwner, setFirstOwner] = useState("");
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [openSearchBar,setOpenSearchBar] = useState(false);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,9 +88,12 @@ const Buy = () => {
   
   const isNextDisabled = cars.length === 0;
   return (
-    <div className="w-full h-auto flex">
+    <div className="w-full h-auto flex ">
+       <div className="flex w-[5%] bg-primary md:hidden">
+        <GiHamburgerMenu onClick={()=>setOpenSearchBar(!openSearchBar)} className="text-2xl text-white cursor-pointer" />
+</div>
       {/* Sidebar */}
-      <div className="w-[20%] h-full bg-white shadow-lg p-8 flex flex-col">
+      <div className="hidden w-[20%] h-full bg-white shadow-lg p-8 md:flex flex-col">
         <h2 className="text-primary text-3xl font-extrabold text-center pb-6">
           Search Area
         </h2>
@@ -250,6 +256,7 @@ const Buy = () => {
           </button>
         </div>
       </div>
+     
 
        {/* Main Content Area */}
        <div className="w-[80%] h-auto bg-gray-100">
@@ -274,7 +281,7 @@ const Buy = () => {
           <h1>Cars for sale</h1>
         </div>
 
-        {/* Car Listing */}
+        {/*Car Listing*/}
         {loading ? (
           <p>Loading...</p>
         ) : (
@@ -303,6 +310,172 @@ const Buy = () => {
           </button>
         </div>
       </div>
+      {
+        openSearchBar && <div className="absolute w-[50%] h-full bg-white shadow-lg p-8 md:flex flex-col z-50">
+        <h2 className="text-primary text-xl md:text-3xl font-extrabold text-center pb-6 flex items-center justify-between">
+          Search Area
+          <GiHamburgerMenu className="text-4xl" onClick={()=>setOpenSearchBar(!openSearchBar)} />
+        </h2>
+
+        {/* Price Filter */}
+        <div className="w-full flex flex-col gap-4 pb-4">
+          <label className="text-sm text-primary font-bold">Price Range</label>
+          <div className="flex items-center gap-2">
+            <input
+              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+              type="number"
+              placeholder="Min Price"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+            />
+            <input
+              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+              type="number"
+              placeholder="Max Price"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Brand Filter */}
+        <div className="w-full pb-4">
+          <label className="text-sm text-primary font-bold">Brand</label>
+          <input
+            className="w-full border-2 border-solid border-primary outline-none rounded px-2 py-1 mt-1"
+            type="text"
+            placeholder="Enter brand name"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+          />
+        </div>
+
+        {/* Transmission Filter */}
+        <div className="w-full pb-4">
+          <label className="text-sm text-primary font-bold">Transmission</label>
+          <div className="w-full flex flex-col gap-2 pt-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="transmission"
+                value="Manual"
+                onChange={handleTransmissionChange}
+              />
+              <span className="text-sm text-gray-700">Manual</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="transmission"
+                value="Automatic"
+                onChange={handleTransmissionChange}
+              />
+              <span className="text-sm text-gray-700">Automatic</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="transmission"
+                value="Hybrid"
+                onChange={handleTransmissionChange}
+              />
+              <span className="text-sm text-gray-700">Hybrid</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Km Filter */}
+        <div className="w-full flex flex-col gap-4 pb-4">
+          <label className="text-sm text-primary font-bold">Km Range</label>
+          <div className="flex items-center gap-2">
+            <input
+              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+              type="number"
+              placeholder="Min km"
+              value={minKm}
+              onChange={(e) => setMinKm(e.target.value)}
+            />
+            <input
+              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+              type="number"
+              placeholder="Max km"
+              value={maxKm}
+              onChange={(e) => setMaxKm(e.target.value)}
+            />
+          </div>
+        </div>
+
+      {/* Color Filter */}
+<div className="w-full pb-4">
+  <label className="text-sm text-primary font-bold">Colors</label>
+  <div className="w-full flex flex-col gap-2 pt-2">
+    {[
+      { name: "Red", hex: "#ff0000" },
+      { name: "Blue", hex: "#0000ff" },
+      { name: "Green", hex: "#008000" },
+      { name: "Black", hex: "#000000" },
+      { name: "White", hex: "#ffffff" },
+      { name: "Yellow", hex: "#ffff00" },
+      { name: "Orange", hex: "#ffa500" },
+      { name: "Purple", hex: "#800080" },
+      { name: "Brown", hex: "#a52a2a" },
+      { name: "Pink", hex: "#ffc0cb" },
+      { name: "Gray", hex: "#808080" },
+    ].map(({ name, hex }) => (
+      <label className="flex items-center gap-2" key={name}>
+        <input
+          type="checkbox"
+          value={name}
+          onChange={handleColorChange}
+          
+        />
+        <span
+          className="w-4 h-4 rounded-full"
+          style={{ backgroundColor: hex }}
+        ></span>
+        <span className="text-sm text-gray-700">{name}</span>
+      </label>
+    ))}
+  </div>
+</div>
+
+
+        {/* First Owner Filter */}
+        <div className="w-full pb-4">
+          <label className="text-sm text-primary font-bold">First Owner</label>
+          <div className="w-full flex flex-col gap-2 pt-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="firstOwner"
+                value="yes"
+                onChange={handleFirstOwnerChange}
+              />
+              <span className="text-sm text-gray-700">Yes</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="firstOwner"
+                value="no"
+                onChange={handleFirstOwnerChange}
+              />
+              <span className="text-sm text-gray-700">No</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Search Button */}
+        <div className="text-center mt-auto">
+          <button
+            className="bg-primary text-white font-bold py-2 px-4 rounded hover:bg-primary-dark transition duration-300"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+        </div>
+      </div>
+      }
     </div>
   );
 };
