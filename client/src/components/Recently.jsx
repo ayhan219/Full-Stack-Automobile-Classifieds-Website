@@ -18,14 +18,14 @@ const Recently = () => {
     getRecentlyCar();
   },[])
   return (
-    <div className="w-full h-[50vh] flex justify-center">
+    <div className="w-full h-[70vh] flex justify-center">
       <div className="w-[70%] h-[80vh] ">
         <div className="">
           <h2 className="text-[#1F2B59] text-3xl font-extrabold p-5">
             Recently Cars 
           </h2>
         </div>
-        <div className="w-full h-[60%]  flex gap-4 justify-center">
+        <div className="w-full h-[90%]  flex flex-col md:flex-row gap-6 justify-center">
         {
           recently.map((item)=>(
             <Car item={item} key={item.id} />
