@@ -15,11 +15,11 @@ const Buy = () => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [openSearchBar,setOpenSearchBar] = useState(false);
+  const [openSearchBar, setOpenSearchBar] = useState(false);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 5; 
+  const limit = 5;
 
   // Checkbox handling for color and transmission
   const handleColorChange = (e) => {
@@ -50,18 +50,24 @@ const Buy = () => {
           maxKm,
           firstOwner,
           color: color.join(","),
-          page: currentPage, 
+          page: currentPage,
           limit,
         },
       });
 
-      setCars(response.data);  
+      setCars(response.data);
       if (response.data.length === 0 && currentPage > 1) {
-        // If the data is empty, revert to the previous page
-        setCurrentPage(prevPage => prevPage - 1);
+        setCurrentPage((prevPage) => prevPage - 1);
       }
-      
-     
+
+      setMinPrice("");
+      setMaxPrice("");
+      setBrand("");
+      setTransmission("");
+      setMinKm("");
+      setMaxKm("");
+      setColor([]);
+      setFirstOwner("");
     } catch (error) {
       console.error("Error fetching cars:", error);
     } finally {
@@ -71,27 +77,30 @@ const Buy = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [currentPage]); 
+  }, [currentPage]);
 
   const handleNextPage = () => {
-    if (cars.length > 0) {  // Only allow going to next page if there are cars
-      setCurrentPage(prevPage => prevPage + 1);
+    if (cars.length > 0) {
+      // Only allow going to next page if there are cars
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(prevPage => prevPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
-  
   const isNextDisabled = cars.length === 0;
   return (
     <div className="w-full h-auto flex ">
-       <div className="flex w-[5%] bg-primary md:hidden">
-        <GiHamburgerMenu onClick={()=>setOpenSearchBar(!openSearchBar)} className="text-2xl text-white cursor-pointer" />
-</div>
+      <div className="flex w-[5%] bg-primary md:hidden">
+        <GiHamburgerMenu
+          onClick={() => setOpenSearchBar(!openSearchBar)}
+          className="text-2xl text-white cursor-pointer"
+        />
+      </div>
       {/* Sidebar */}
       <div className="hidden w-[20%] h-full bg-white shadow-lg p-8 md:flex flex-col">
         <h2 className="text-primary text-3xl font-extrabold text-center pb-6">
@@ -186,40 +195,38 @@ const Buy = () => {
           </div>
         </div>
 
-      {/* Color Filter */}
-<div className="w-full pb-4">
-  <label className="text-sm text-primary font-bold">Colors</label>
-  <div className="w-full flex flex-col gap-2 pt-2">
-    {[
-      { name: "Red", hex: "#ff0000" },
-      { name: "Blue", hex: "#0000ff" },
-      { name: "Green", hex: "#008000" },
-      { name: "Black", hex: "#000000" },
-      { name: "White", hex: "#ffffff" },
-      { name: "Yellow", hex: "#ffff00" },
-      { name: "Orange", hex: "#ffa500" },
-      { name: "Purple", hex: "#800080" },
-      { name: "Brown", hex: "#a52a2a" },
-      { name: "Pink", hex: "#ffc0cb" },
-      { name: "Gray", hex: "#808080" },
-    ].map(({ name, hex }) => (
-      <label className="flex items-center gap-2" key={name}>
-        <input
-          type="checkbox"
-          value={name}
-          onChange={handleColorChange}
-          
-        />
-        <span
-          className="w-4 h-4 rounded-full"
-          style={{ backgroundColor: hex }}
-        ></span>
-        <span className="text-sm text-gray-700">{name}</span>
-      </label>
-    ))}
-  </div>
-</div>
-
+        {/* Color Filter */}
+        <div className="w-full pb-4">
+          <label className="text-sm text-primary font-bold">Colors</label>
+          <div className="w-full flex flex-col gap-2 pt-2">
+            {[
+              { name: "Red", hex: "#ff0000" },
+              { name: "Blue", hex: "#0000ff" },
+              { name: "Green", hex: "#008000" },
+              { name: "Black", hex: "#000000" },
+              { name: "White", hex: "#ffffff" },
+              { name: "Yellow", hex: "#ffff00" },
+              { name: "Orange", hex: "#ffa500" },
+              { name: "Purple", hex: "#800080" },
+              { name: "Brown", hex: "#a52a2a" },
+              { name: "Pink", hex: "#ffc0cb" },
+              { name: "Gray", hex: "#808080" },
+            ].map(({ name, hex }) => (
+              <label className="flex items-center gap-2" key={name}>
+                <input
+                  type="checkbox"
+                  value={name}
+                  onChange={handleColorChange}
+                />
+                <span
+                  className="w-4 h-4 rounded-full"
+                  style={{ backgroundColor: hex }}
+                ></span>
+                <span className="text-sm text-gray-700">{name}</span>
+              </label>
+            ))}
+          </div>
+        </div>
 
         {/* First Owner Filter */}
         <div className="w-full pb-4">
@@ -256,10 +263,9 @@ const Buy = () => {
           </button>
         </div>
       </div>
-     
 
-       {/* Main Content Area */}
-       <div className="w-[80%] h-auto bg-gray-100">
+      {/* Main Content Area */}
+      <div className="w-[80%] h-auto bg-gray-100">
         <div className="flex justify-center">
           <div className="w-full h-20 p-10 flex items-center justify-around">
             <div className="flex items-center">
@@ -297,7 +303,7 @@ const Buy = () => {
           <button
             className="bg-gray-300 text-black py-2 px-4 rounded-l"
             onClick={handlePrevPage}
-            disabled={currentPage === 1} 
+            disabled={currentPage === 1}
           >
             Previous
           </button>
@@ -310,172 +316,182 @@ const Buy = () => {
           </button>
         </div>
       </div>
-      {
-        openSearchBar && <div className="absolute w-[50%] h-full bg-white shadow-lg p-8 md:flex flex-col z-50">
-        <h2 className="text-primary text-xl md:text-3xl font-extrabold text-center pb-6 flex items-center justify-between">
-          Search Area
-          <GiHamburgerMenu className="text-4xl" onClick={()=>setOpenSearchBar(!openSearchBar)} />
-        </h2>
+      {openSearchBar && (
+        <div className="absolute w-[50%] h-full bg-white shadow-lg p-8 md:flex flex-col z-50">
+          <h2 className="text-primary text-xl md:text-3xl font-extrabold text-center pb-6 flex items-center justify-between">
+            Search Area
+            <GiHamburgerMenu
+              className="text-4xl"
+              onClick={() => setOpenSearchBar(!openSearchBar)}
+            />
+          </h2>
 
-        {/* Price Filter */}
-        <div className="w-full flex flex-col gap-4 pb-4">
-          <label className="text-sm text-primary font-bold">Price Range</label>
-          <div className="flex items-center gap-2">
-            <input
-              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
-              type="number"
-              placeholder="Min Price"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-            />
-            <input
-              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
-              type="number"
-              placeholder="Max Price"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-            />
+          {/* Price Filter */}
+          <div className="w-full flex flex-col gap-4 pb-4">
+            <label className="text-sm text-primary font-bold">
+              Price Range
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+                type="number"
+                placeholder="Min Price"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+              />
+              <input
+                className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+                type="number"
+                placeholder="Max Price"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Brand Filter */}
-        <div className="w-full pb-4">
-          <label className="text-sm text-primary font-bold">Brand</label>
-          <input
-            className="w-full border-2 border-solid border-primary outline-none rounded px-2 py-1 mt-1"
-            type="text"
-            placeholder="Enter brand name"
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
-          />
-        </div>
-
-        {/* Transmission Filter */}
-        <div className="w-full pb-4">
-          <label className="text-sm text-primary font-bold">Transmission</label>
-          <div className="w-full flex flex-col gap-2 pt-2">
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="transmission"
-                value="Manual"
-                onChange={handleTransmissionChange}
-              />
-              <span className="text-sm text-gray-700">Manual</span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="transmission"
-                value="Automatic"
-                onChange={handleTransmissionChange}
-              />
-              <span className="text-sm text-gray-700">Automatic</span>
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="transmission"
-                value="Hybrid"
-                onChange={handleTransmissionChange}
-              />
-              <span className="text-sm text-gray-700">Hybrid</span>
-            </label>
-          </div>
-        </div>
-
-        {/* Km Filter */}
-        <div className="w-full flex flex-col gap-4 pb-4">
-          <label className="text-sm text-primary font-bold">Km Range</label>
-          <div className="flex items-center gap-2">
+          {/* Brand Filter */}
+          <div className="w-full pb-4">
+            <label className="text-sm text-primary font-bold">Brand</label>
             <input
-              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
-              type="number"
-              placeholder="Min km"
-              value={minKm}
-              onChange={(e) => setMinKm(e.target.value)}
-            />
-            <input
-              className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
-              type="number"
-              placeholder="Max km"
-              value={maxKm}
-              onChange={(e) => setMaxKm(e.target.value)}
+              className="w-full border-2 border-solid border-primary outline-none rounded px-2 py-1 mt-1"
+              type="text"
+              placeholder="Enter brand name"
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
             />
           </div>
-        </div>
 
-      {/* Color Filter */}
-<div className="w-full pb-4">
-  <label className="text-sm text-primary font-bold">Colors</label>
-  <div className="w-full flex flex-col gap-2 pt-2">
-    {[
-      { name: "Red", hex: "#ff0000" },
-      { name: "Blue", hex: "#0000ff" },
-      { name: "Green", hex: "#008000" },
-      { name: "Black", hex: "#000000" },
-      { name: "White", hex: "#ffffff" },
-      { name: "Yellow", hex: "#ffff00" },
-      { name: "Orange", hex: "#ffa500" },
-      { name: "Purple", hex: "#800080" },
-      { name: "Brown", hex: "#a52a2a" },
-      { name: "Pink", hex: "#ffc0cb" },
-      { name: "Gray", hex: "#808080" },
-    ].map(({ name, hex }) => (
-      <label className="flex items-center gap-2" key={name}>
-        <input
-          type="checkbox"
-          value={name}
-          onChange={handleColorChange}
-          
-        />
-        <span
-          className="w-4 h-4 rounded-full"
-          style={{ backgroundColor: hex }}
-        ></span>
-        <span className="text-sm text-gray-700">{name}</span>
-      </label>
-    ))}
-  </div>
-</div>
-
-
-        {/* First Owner Filter */}
-        <div className="w-full pb-4">
-          <label className="text-sm text-primary font-bold">First Owner</label>
-          <div className="w-full flex flex-col gap-2 pt-2">
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="firstOwner"
-                value="yes"
-                onChange={handleFirstOwnerChange}
-              />
-              <span className="text-sm text-gray-700">Yes</span>
+          {/* Transmission Filter */}
+          <div className="w-full pb-4">
+            <label className="text-sm text-primary font-bold">
+              Transmission
             </label>
-            <label className="flex items-center gap-2">
+            <div className="w-full flex flex-col gap-2 pt-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="transmission"
+                  value="Manual"
+                  onChange={handleTransmissionChange}
+                />
+                <span className="text-sm text-gray-700">Manual</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="transmission"
+                  value="Automatic"
+                  onChange={handleTransmissionChange}
+                />
+                <span className="text-sm text-gray-700">Automatic</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="transmission"
+                  value="Hybrid"
+                  onChange={handleTransmissionChange}
+                />
+                <span className="text-sm text-gray-700">Hybrid</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Km Filter */}
+          <div className="w-full flex flex-col gap-4 pb-4">
+            <label className="text-sm text-primary font-bold">Km Range</label>
+            <div className="flex items-center gap-2">
               <input
-                type="radio"
-                name="firstOwner"
-                value="no"
-                onChange={handleFirstOwnerChange}
+                className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+                type="number"
+                placeholder="Min km"
+                value={minKm}
+                onChange={(e) => setMinKm(e.target.value)}
               />
-              <span className="text-sm text-gray-700">No</span>
+              <input
+                className="w-[50%] border-2 border-solid border-primary outline-none rounded px-2 py-1"
+                type="number"
+                placeholder="Max km"
+                value={maxKm}
+                onChange={(e) => setMaxKm(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Color Filter */}
+          <div className="w-full pb-4">
+            <label className="text-sm text-primary font-bold">Colors</label>
+            <div className="w-full flex flex-col gap-2 pt-2">
+              {[
+                { name: "Red", hex: "#ff0000" },
+                { name: "Blue", hex: "#0000ff" },
+                { name: "Green", hex: "#008000" },
+                { name: "Black", hex: "#000000" },
+                { name: "White", hex: "#ffffff" },
+                { name: "Yellow", hex: "#ffff00" },
+                { name: "Orange", hex: "#ffa500" },
+                { name: "Purple", hex: "#800080" },
+                { name: "Brown", hex: "#a52a2a" },
+                { name: "Pink", hex: "#ffc0cb" },
+                { name: "Gray", hex: "#808080" },
+              ].map(({ name, hex }) => (
+                <label className="flex items-center gap-2" key={name}>
+                  <input
+                    type="checkbox"
+                    value={name}
+                    onChange={handleColorChange}
+                  />
+                  <span
+                    className="w-4 h-4 rounded-full"
+                    style={{ backgroundColor: hex }}
+                  ></span>
+                  <span className="text-sm text-gray-700">{name}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* First Owner Filter */}
+          <div className="w-full pb-4">
+            <label className="text-sm text-primary font-bold">
+              First Owner
             </label>
+            <div className="w-full flex flex-col gap-2 pt-2">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="firstOwner"
+                  value="yes"
+                  onChange={handleFirstOwnerChange}
+                />
+                <span className="text-sm text-gray-700">Yes</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="firstOwner"
+                  value="no"
+                  onChange={handleFirstOwnerChange}
+                />
+                <span className="text-sm text-gray-700">No</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <div className="text-center mt-auto">
+            <button
+              className="bg-primary text-white font-bold py-2 px-4 rounded hover:bg-primary-dark transition duration-300"
+              onClick={() => {
+                handleSearch();
+                setOpenSearchBar(!openSearchBar);
+              }}
+            >
+              Search
+            </button>
           </div>
         </div>
-
-        {/* Search Button */}
-        <div className="text-center mt-auto">
-          <button
-            className="bg-primary text-white font-bold py-2 px-4 rounded hover:bg-primary-dark transition duration-300"
-            onClick={handleSearch}
-          >
-            Search
-          </button>
-        </div>
-      </div>
-      }
+      )}
     </div>
   );
 };
