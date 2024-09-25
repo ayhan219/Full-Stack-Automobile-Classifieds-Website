@@ -8,21 +8,24 @@ const Navbar = () => {
   const [hamburgerMenu, setHamburgerMenu] = useState(false);
   const { currentUser } = useContext(UserContext);
 
-  const handleLogout = async(e)=>{
+  const handleLogout = async (e) => {
+
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/logout",{},{
-        withCredentials: true,
-      })
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       console.log(response);
       window.location.reload();
-      
     } catch (error) {
       console.log(error);
-      
     }
-  }
+  };
 
   return (
     <>
@@ -58,17 +61,22 @@ const Navbar = () => {
                 </button>
               </Link>
             )}
-           {
-            currentUser === null ?  <Link to={"/signup"}>
-            <button className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition duration-300">
-              Sign Up
-            </button>
-          </Link> :  <Link>
-              <button onClick={handleLogout}  className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition duration-300">
-                Logout
-              </button>
-            </Link>
-           }
+            {currentUser === null ? (
+              <Link to={"/signup"}>
+                <button className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition duration-300">
+                  Sign Up
+                </button>
+              </Link>
+            ) : (
+              <Link>
+                <button
+                  onClick={handleLogout}
+                  className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                >
+                  Logout
+                </button>
+              </Link>
+            )}
           </div>
         </div>
 
@@ -77,14 +85,17 @@ const Navbar = () => {
         </div>
 
         {hamburgerMenu && (
-          <div className="absolute top-20 left-0 w-full bg-primary text-white p-5 md:hidden">
+          <div className="absolute top-20 left-0 w-full bg-primary text-white p-5 md:hidden z-50">
             <div className="flex flex-col gap-4">
-              <Link to="#" onClick={() => setHamburgerMenu(false)}>
+              <Link to="/buy" onClick={() => setHamburgerMenu(false)}>
                 <a className="hover:text-gray-400 ease-linear duration-150">
                   Buy
                 </a>
               </Link>
-              <Link to="/createcar" onClick={() => setHamburgerMenu(false)}>
+              <Link
+                to={currentUser ? "/createcar" : "/login"}
+                onClick={() => setHamburgerMenu(false)}
+              >
                 <a className="hover:text-gray-400 ease-linear duration-150">
                   Sell car
                 </a>
@@ -94,16 +105,33 @@ const Navbar = () => {
                   Services
                 </a>
               </Link>
-              <Link to={"/login"} onClick={() => setHamburgerMenu(false)}>
-                <button className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded transition duration-300">
+              {currentUser === null && (
+              <Link to={"/login"}>
+                <button onClick={()=>setHamburgerMenu(false)} className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded transition duration-300">
                   Login
                 </button>
               </Link>
-              <Link to={"/signup"} onClick={() => setHamburgerMenu(false)}>
-                <button className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition duration-300">
+            )}
+            {currentUser === null ? (
+              <Link to={"/signup"}>
+                <button onClick={() => setHamburgerMenu(false)} className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition duration-300">
                   Sign Up
                 </button>
               </Link>
+            ) : (
+              <Link>
+                <button
+                  onClick={(e)=>{
+                    handleLogout(e)
+                    setHamburgerMenu(false)
+                  }}
+                 
+                  className="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                >
+                  Logout
+                </button>
+              </Link>
+            )}
             </div>
           </div>
         )}
