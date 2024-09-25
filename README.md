@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/a5b17c48-f43d-4852-ba47-8e405bab30a9)### Project Description
+# Project Description
 <br>
 This project is a car listing and sales platform developed using React, Node.js, Express.js, and MySQL. It allows users to browse through car listings, sort them according to different criteria such as price, model, or year, and post their own cars for sale.
 
