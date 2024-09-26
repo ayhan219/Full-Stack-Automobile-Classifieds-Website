@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import CarDetails from "./pages/CarDetails";
 import { UserProvider } from "./UserContext/UserContext";
 import CreateCar from "./pages/CreateCar";
+import Service from "./pages/Service";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/buy/cardetails/:id" element={<CarDetails />} />
             <Route path="/createcar" element={<CreateCar />} />
+            <Route path="/service" element={<Service />} />
           </Routes>
         </Router>
 

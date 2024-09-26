@@ -47,7 +47,7 @@ const Navbar = () => {
                 Sell car
               </a>
             </Link>
-            <Link to="#">
+            <Link to="/service">
               <a className="hover:text-gray-400 ease-linear duration-150">
                 Services
               </a>
@@ -100,7 +100,7 @@ const Navbar = () => {
                   Sell car
                 </a>
               </Link>
-              <Link to="#" onClick={() => setHamburgerMenu(false)}>
+              <Link to="/service" onClick={() => setHamburgerMenu(false)}>
                 <a className="hover:text-gray-400 ease-linear duration-150">
                   Services
                 </a>
