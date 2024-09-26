@@ -314,7 +314,7 @@ const CreateCar = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="bg-primary text-white font-bold h-10 rounded hover:bg-primary-dark"
+            className="w-full bg-primary text-white font-bold h-10 rounded hover:bg-primary-dark"
           >
             Submit
           </button>
